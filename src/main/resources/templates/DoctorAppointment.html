@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Appointment System</title>
+	<style>
+		body {
+			background-color: #f4f6f8;
+		}
+
+		nav {
+			background-color: #333;
+		}
+
+		.navbar-brand {
+			font-weight: bold;
+			color: white !important;
+		}
+
+		h2 {
+			color: #343a40;
+			margin: 40px 0 20px;
+			/* Added margin for space */
+			text-align: center;
+		}
+
+		table {
+			margin: auto;
+			max-width: 1200px;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			background-color: white;
+		}
+
+		caption {
+			font-weight: bold;
+			margin: 10px 0;
+			font-size: 1.5rem;
+			color: #007bff;
+		}
+
+		thead {
+			background-color: #007bff;
+			color: white;
+		}
+
+		tbody tr {
+			transition: background-color 0.3s;
+		}
+
+		tbody tr:hover {
+			background-color: #e9ecef;
+		}
+
+		th,
+		td {
+			text-align: center;
+			padding: 15px;
+			border-bottom: 1px solid #dee2e6;
+		}
+
+		th {
+			font-size: 1.1rem;
+		}
+
+		td {
+			font-size: 1rem;
+		}
+
+		.alert {
+			margin: 20px auto;
+			max-width: 1200px;
+		}
+
+		.btn {
+			background-color: #28a745;
+			font-weight: 600;
+			transition: background-color 0.3s ease, transform 0.3s ease;
+		}
+
+		.btn:hover {
+			background-color: #5cb85c;
+			transform: scale(1.05);
+		}
+
+		#dashboard_link,
+		#appointment_status_link {
+
+			text-align: center;
+			color: rgb(24, 26, 24) !important;
+			background-color: white !important;
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-sm navbar-light">
+		<div class="container">
+			<a class="navbar-brand" href="#"><i class="fa fa-files-o" aria-hidden="true" style="color: white;"></i>
+				Appointment System</a>
+			<div class="ml-auto">
+				<a th:href="@{/user/logout}" class="btn" type="button" id="dashboard_link"><i class="fa fa-sign-out"
+						aria-hidden="true"></i> Logout</a>&nbsp;&nbsp;
+			</div>
+		</div>
+	</nav>
+
+	<h2>Your Appointments</h2>
+
+	<div th:if="${appointment.isEmpty()}">
+		<p>No appointments found.</p>
+	</div>
+
+	<div th:if="${error}" class="alert alert-danger"> <strong th:text="${error}"></strong> </div>
+
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Appointment Id</th>
+				<th>Patient Name</th>
+				<th>Patient Email</th>
+				<th>Date</th>
+				<th>Problem</th>
+			</tr>
+		</thead>
+		<tbody th:each="appoint: ${appointment}">
+			<tr>
+				<td th:text="${appoint.appointmentId}"></td>
+				<td th:text="${appoint.userName}"></td>
+				<td th:text="${appoint.email}"></td>
+				<td th:text="${appoint.date}"></td>
+				<td th:text="${appoint.problem}"></td>
+			</tr>
+		</tbody>
+
+	</table>
+</body>
+
+</html>

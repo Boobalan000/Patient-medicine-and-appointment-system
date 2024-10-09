@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Appointment System</title>
+</head>
+
+<style>
+    nav,
+    #login_btn {
+        background-color: #333;
+    }
+
+    .navbar-brand {
+        font-weight: bold;
+        color: white !important;
+
+    }
+
+    form {
+        border-radius: 4px !important;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+        max-width: 590px;
+        height: auto;
+        margin: auto;
+    }
+</style>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#"><i class="fa fa-files-o" aria-hidden="true" style="color: white;"></i>
+                    Appointment System</a>
+                <div class="ml-auto">
+					<a th:href="@{/}" class="btn btn-link" id="dashboard_link" style="color: white; font-weight: 600;text-decoration: none;">
+					   <i class="fa fa-home" aria-hidden="true"></i> Home
+				   </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container p-5">
+            <div class="d-flex justify-content-center">
+
+                <form th:action="@{/user/register}" th:object="${userReg}" method="post" class="form-control p-4">
+                    <center><i class="fa fa-newspaper-o fa-4x" aria-hidden="true"></i></center>
+                    <h5 class="text text-center" style="color: rgb(5, 182, 5); font-weight: bolder;">Create User Account
+                    </h5>
+                    <div th:if="${exist}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong><span th:text="${exist}"></span></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong><span th:text="${error}"></span></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div class="mb-2 mt-4">
+                        <label for="username"><i class="fa fa-user-o" aria-hidden="true"></i> User Name</label> <input
+                            type="text" id="name" name="name" th:field="*{userName}"class="form-control" required>
+                    </div>
+                    <div class="mb-2 mt-4">
+                        <label for="email"><i class="fa fa-envelope" aria-hidden="true"></i> Email</label> <input
+                            type="email" id="email" name="userName" th:field="*{email}"class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Only lowercase letters are allowed in the email" required>
+                    </div>
+
+					<div class="mb-2 mt-4">
+					                        <label for="medicalHistory"><i class="fa fa-address-card" aria-hidden="true"></i> Medical history</label> <input
+					                            type="text" id="email" name="medicalHistory" th:field="*{medicalHistory}"class="form-control" required>
+					                    </div>
+                    <div class="mb-2 mt-4">
+                        <label for="password"><i class="fa fa-lock" aria-hidden="true"></i> Password</label>
+                        <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" th:field="*{password}"class="form-control" required>
+						<div class="container" style="padding-top: 6px"></div>
+						<input class="form-check-input" type="checkbox" onclick="myfunction()"> show password
+                    </div>
+                    <button class="btn mt-2 mb-2 text-white" id="login_btn" style="font-weight: 700;">Create
+                        Account</button>
+                    <br>
+                    <h6 class="text text-center text-bold mt-4">I have an account <a th:href="@{/user/login}">Login</a>
+                    </h6>
+                </form>
+            </div>
+        </div>
+    </main>
+	<script th:inline="javascript">
+		function myfunction(){
+			var x=document.getElementById("password");
+			if(x.type==="password")
+			{
+				x.type="text";
+			}
+			else{
+				x.type="password";
+			}
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        nav {
+            background-color: #333;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+        }
+        .navbar-nav .nav-link {
+            color: white !important;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ddd !important; /* Lighten color on hover */
+        }
+        body {
+            margin: 0;
+            padding-top: 0px; /* Space for the fixed navbar */
+        }
+        .column {
+            width: 45%;
+            padding: 30px;
+            border: 2px solid black;
+            border-radius: 15px;
+            text-align: center;
+            margin: 10px; /* Add margin between columns */
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px; /* Add shadow */
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3; /* Darker on hover */
+        }
+        @media (max-width: 768px) {
+            .column {
+                width: 90%; /* Full width on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fa fa-files-o" aria-hidden="true"></i> Appointment System
+                </a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto"> <!-- Right-align links -->
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/}">
+                                <i class="fa fa-home" aria-hidden="true"></i> Home
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="d-flex justify-content-center flex-wrap" style="padding-top: 80px;">
+        <div class="column">
+            <h4>Appointments</h4>
+            <p>Time to check appiontments</p>
+            <a th:href="@{/doctor/appointments}" class="btn btn-custom">View</a>
+        </div>
+
+        <div class="column">
+            <h4>Medicine Prescription</h4>
+            <p>Add some medicine to patient</p>
+            <a th:href="@{/doctor/medication}" class="btn btn-custom">View</a>
+        </div>
+		
+    </main>
+</body>
+</html>

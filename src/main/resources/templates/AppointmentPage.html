@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Appointment system</title>
+</head>
+
+<style>
+    nav {
+        background-color: #333;
+    }
+
+    .navbar-brand {
+        font-weight: bold;
+        color: white !important;
+    }
+
+    .head1,
+    .fa {
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+    }
+
+    form {
+        border-radius: 4px !important;
+        max-width: 1200px;
+        height: auto;
+        margin: auto;
+        border: 1px solid rgb(48, 53, 48) !important;
+    }
+
+    label {
+        text-align: left !important;
+        color: black;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+	.btn {
+	    background-color: rgb(26, 95, 180);
+	    font-weight: 600;
+	    transition: background-color 0.3s ease, transform 0.3s ease;
+	}
+
+	.btn:hover {
+	    background-color: rgb(34, 126, 227); /* Lighter shade on hover */
+	    transform: scale(1.05); /* Slightly enlarge the button */
+	}
+    #dashboard_link,
+    #appointment_status_link {
+        
+        text-align: center;
+        color: rgb(24, 26, 24) !important;
+        background-color: white !important;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fa fa-files-o" aria-hidden="true" style="color: white;"></i>
+                Appointment System</a>
+            <div class="ml-auto">
+                <a th:href="@{/user/logout}" class="btn" type="button" id="dashboard_link"><i class="fa fa-sign-out" aria-hidden="true"></i> logout</a>&nbsp;&nbsp;
+            </div>
+        </div>
+    </nav>
+
+
+    <main>
+        <div class="container p-3 mt-3">
+        <h2 class="text p-2 text-center">Book Your Appointment</h2>
+            <div class="d-flex justify-content-center">
+            
+                <form th:action="@{/user/appointment}" th:object="${appointmentUser}" method="post" class="form-control p-4 mt-4">
+
+                    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong><span th:text="${success}"></span></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong><span th:text="${error}"></span></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for=""><i class="fa fa-user"></i> Name</label>
+                                <input type="text" name="username" class="form-control" pattern="[A-Za-z\s]+" title="Please enter only letters and spaces." th:field="*{userName}"  required>
+                            </div>
+							<div class="mb-3">
+														<label><i class="fa fa-envelope" aria-hidden="true"></i> Email</label>
+														<select id="email" class="form-control form-select" name="email" th:field="*{email}" required>
+														    <option value="" disabled selected>Select Doctor</option>
+														    <option th:each="st: ${userAppointment}" th:value="${st.email}" th:text="${st.email}"></option>
+														</select>
+													</div>
+							                        
+
+
+							<div class="mb-3">
+								<label for="number"><i class="fa fa-phone"></i>Phone number</label>
+								<input type="tel" name="number" class="form-control" th:field="*{number}" required pattern="\d{10}">
+							</div>
+                            <div class="mb-3">
+                                <label for="">Address</label>
+								<textarea id="address" class="form-control" rows="2" cols="30" placeholder="123 Main St, City, State, Zip" oninput="validateAddress()" th:field="*{address}"></textarea>
+								       <p id="error-message" style="color: red;"></p>                           
+								    </div>
+									</div>
+                        
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+								<label>Doctor</label>
+								<select id="doctor" class="form-control form-select" name="doctor" th:field="*{doctorName}" required>
+								    <option value="" disabled selected>Select Doctor</option>
+								    <option th:each="dr: ${doctorInUser}" th:value="${dr.name}" th:text="${dr.name}"></option>
+								</select>
+							</div>
+                         
+                            <div class="mb-3">
+                                <label for=""><i class="fa fa-clock-o"></i> Appointment Date</label>
+                                <input type="date" name="date" class="form-control" id="bookingDate" th:field="*{date}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for=""> Problem</label>
+                                <input type="text" name="problem" class="form-control" id="" th:field="*{problem}" placeholder="eg: Headache" required>
+                            </div>
+							<div class="mb-3">
+							    <label for="appointmentId">Appointment ID</label>
+							    <input type="text" class="form-control" id="appointmentId" th:field="*{appointmentId}" readonly>
+							</div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="row p-2 mt-2 mb-3">
+
+                        <button class="btn text-light" type="submit">Book Appointment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+<script th:inline="javascript">
+	
+	    function generateAppointmentId() {
+	        const randomId = 'APT-' + Math.floor(Math.random() * 10000); // Simple random ID
+	        document.getElementById('appointmentId').value = randomId;
+	    }
+
+	    // Call the function on page load
+	    window.onload = generateAppointmentId;
+
+
+		
+		function validateAddress() {
+		            const textarea = document.getElementById('address');
+		            const errorMessage = document.getElementById('error-message');
+		            const addressPattern = /^[\d\s\w.,-]*$/; // Simple pattern for addresses
+
+		            if (!addressPattern.test(textarea.value)) {
+		                errorMessage.textContent = 'Please enter a valid address.';
+		            } else {
+		                errorMessage.textContent = '';
+		            }
+		        }
+    </script>
+	<script th:inline="javascript">
+		
+		    const today = new Date();
+		    const maxDate = new Date();
+		    maxDate.setDate(today.getDate() + 30);
+
+		    const dateInput = document.getElementById('bookingDate');
+		    dateInput.min = today.toISOString().split('T')[0]; // Current date
+		    dateInput.max = maxDate.toISOString().split('T')[0]; // 30 days from now
+	
+	</script>
+</body>
+
+</html>
